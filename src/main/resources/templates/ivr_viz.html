@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>Force Layout with labels on edges</title>
+    <!--<script type="text/javascript" src="script/d3.min.js"></script>-->
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="http://cpettitt.github.io/project/dagre-d3/v0.2.9/dagre-d3.min.js"></script>
+    <style type="text/css">
+        text {
+            font-weight: 300;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serf;
+            font-size: 14px;
+        }
+
+        .node rect {
+            stroke: #333;
+        }
+
+        .edgePath path {
+            stroke: #333;
+            fill: none;
+        }
+    </style>
+</head>
+<body onload="init()">
+
+<select th:field="*{stateOptions}" id="states_id" onchange="updateVisualisation()" style="font-size: 20px;">
+    <option value="All">All</option>
+    <option th:each="option : ${stateOptions}"
+            th:value="${option}"
+            th:text="${option.label}"></option>
+</select>
+
+<span id="error_message" style="font-size: 20px; color: red; text-align: center"/>
+<script type="text/javascript" src="script/digraph.js"></script>
+<script type="text/javascript">
+    function init() {
+        var selectedState = document.getElementById('states_id');
+        var state = selectedState[selectedState.selectedIndex].text;
+        d3.json("/plotState?state=" + state, function(error, dataset){
+            drawForceGraph(state, dataset, drawSvg());
+        });
+    }
+
+    function updateVisualisation() {
+        var selectedState = document.getElementById('states_id');
+        var state = selectedState[selectedState.selectedIndex].text;
+        d3.json("/plotState?state=" + state, function(error, dataset){
+            drawForceGraph(state, dataset, updateSvg());
+        });
+        function updateSvg() {
+            document.getElementById("svg_id").remove();
+            document.getElementById("container").remove();
+            return drawSvg();
+        }
+    }
+
+</script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+buildscript {
+    repositories {
+        maven { url "http://repo.spring.io/libs-release" }
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.1.4.RELEASE")
+    }
+}
+
+
+apply plugin: 'java'
+apply plugin: 'spring-boot'
+
+repositories {
+    maven { url "http://repo.spring.io/libs-release" }
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.jdom:jdom2:2.0.5'
+    compile 'com.google.guava:guava:17.0'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.4.1.3'
+
+    compile("org.springframework.boot:spring-boot-starter-thymeleaf:1.1.4.RELEASE")
+    compile("org.springframework.boot:spring-boot-starter-web:1.1.5.RELEASE")
+
+    testCompile 'junit:junit:4.11'
+    testCompile 'org.hamcrest:hamcrest-all:1.3'
+}
+
+test {
+  // show standard out and standard error create the test JVM(s) on the console
+  testLogging.showStandardStreams = true
+}
+
+
